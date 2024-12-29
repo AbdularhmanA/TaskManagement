@@ -1,0 +1,51 @@
+﻿@model IEnumerable<TaskManagement.ViewModel.TaskListViewModel>
+
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>قائمة المهام</title>
+    <link rel="stylesheet" href="~/css/Css.Css" asp-append-version="true">
+     <header>
+            <img src="~/image/Saudi_Vision_2030_logo.svg.png" alt="Vision 2030" class="logo-left" asp-append-version="true">
+            <div class="header-text">
+                <h1>أمانة منطقة حائل</h1>
+                <h2>HAIL REGION MUNICIPALITY</h2>
+            </div>
+            <img src="~/image/logo1.png" alt="Hail Region Municipality" class="logo-right" asp-append-version="true">
+        </header>
+</head>
+<body>
+    <div class="container">
+       
+
+        <h2>قائمة المهام</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>اسم المستلم</th>
+                    <th>مسمى المهمة</th>
+                    <th>سرعة التنفيذ</th>
+                    <th>الموعد النهائي</th>
+                    <th>الحالة</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var task in Model)
+                {
+                    <tr>
+                        <td>@task.RecipientFullName</td>
+                        <td>@task.Title</td>
+                        <td>@task.Priority</td>
+                        <td>
+                            @task.Deadline?.ToString("yyyy-MM-dd") @Html.Raw("&nbsp;") @task.Deadline?.ToString("hh:mm tt")
+                        </td>
+                        <td>@task.Status</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

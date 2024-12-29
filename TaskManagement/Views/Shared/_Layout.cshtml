@@ -1,0 +1,87 @@
+﻿@using System.Security.Claims
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - TestBotstrap</title>
+    <script src="~/js/site.js"></script> <!-- ضع المسار الصحيح لملف JavaScript -->
+    <link rel="stylesheet" href="~/css/Class.css" />
+
+
+
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/TestBotstrap.styles.css" asp-append-version="true" />
+
+</head>
+<body>
+    <header>
+  
+        <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark" >
+            <div class="container-fluid"> 
+                @* style="background-color: green;" *@
+                <a class="navbar-brand" href="#"> TM </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarColor01" >
+                    @* style="background-color: aqua;" *@
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                       
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">خدماتنا</a>
+                            <div class="dropdown-menu ">
+                                @* style="background-color: #f8f9fa; color: #333;" *@
+                                    @{
+                                        var user = ViewBag.CurrentUser; // استرجاع بيانات المستخدم من ViewBag
+                                    }
+
+                                    @if (user != null && user.JobPosition == "مدير") // تحقق مما إذا كان المستخدم مديرًا
+                                    {
+                                    <a class="dropdown-item" href="@Url.Action("AddTask", "Task")">إضافة مهمة</a>
+                                    <a class="dropdown-item" href="@Url.Action("TaskList", "Task")">قائمة المهام</a> <!-- الرابط الذي يظهر فقط إذا كان المستخدم مديرًا -->
+                                    }  
+                                    @if (user != null && user.JobPosition == "موظف") // تحقق مما إذا كان المستخدم مديرًا
+                                    {
+                                    <a class="dropdown-item" href="@Url.Action("TaskReception", "Task")">استقبال المهام </a> <!-- الرابط الذي يظهر فقط إذا كان المستخدم مديرًا -->
+                                    <a class="dropdown-item" href="@Url.Action("TrackTask", "Task")">متابعة المهام</a> <!-- الرابط الذي يظهر فقط إذا كان المستخدم مديرًا -->
+                                    }
+
+
+
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="javascript:void(0);" onclick="confirmLogout('@Url.Action("Logout", "Account")')">تسجيل خروج</a>
+</div>
+                        </li>
+                    </ul>
+                  
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - TestBotstrap - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+   
+
+
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    @*  <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script> *@
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

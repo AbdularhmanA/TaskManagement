@@ -1,0 +1,82 @@
+﻿@model TaskManagement.ViewModel.AddTaskViewModel
+
+@{
+    ViewData["Title"] = "إنشاء مهمة";
+}
+<link rel="stylesheet" href="~/css/Css.Css" asp-append-version="true">
+<div class="container">
+    <header>
+        <img src="~/image/Saudi_Vision_2030_logo.svg.png" alt="Vision 2030" class="logo-left" asp-append-version="true">
+        <div class="header-text">
+            <h1>أمانة منطقة حائل</h1>
+            <h2>HAIL REGION MUNICIPALITY</h2>
+        </div>
+        <img src="~/image/logo1.png" alt="Hail Region Municipality" class="logo-right" asp-append-version="true">
+    </header>
+    <h2>إنشاء مهمة</h2>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success" role="alert">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    <form asp-action="AddTask" method="post">
+        <div class="form-group">
+            <label asp-for="Title">عنوان المهمة:</label>
+            <input asp-for="Title" class="form-control" required />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Description">وصف المهمة:</label>
+            <textarea asp-for="Description" class="form-control" required></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Priority">الأولوية:</label>
+            <select asp-for="Priority" class="form-control" required>
+                <option value="">اختر أولوية</option>
+                <option value="عالية">عالية</option>
+                <option value="متوسطة">متوسطة</option>
+                <option value="منخفضة">منخفضة</option>
+            </select>
+            <span asp-validation-for="Priority" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Deadline">الموعد النهائي:</label>
+            <input asp-for="Deadline" class="form-control" type="datetime-local"
+                   value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" required />
+            <span asp-validation-for="Deadline" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>المستلم:</label>
+            <select asp-for="SelectedRecipientId" class="form-control" required>
+                <option value="">اختر مستلم</option>
+                @foreach (var recipient in Model.AvailableRecipients)
+                {
+                    <option value="@recipient.Value">@recipient.Text</option>
+                }
+            </select>
+            <span asp-validation-for="SelectedRecipientId" class="text-danger"></span>
+        </div>
+        <br />
+        <div class="button-group">
+            <button type="submit" class="btn btn-primary">إنشاء المهمة</button>
+        </div>
+        <br />
+            <div>
+            <a asp-action="TaskList" class="btn btn-secondary">عودة إلى قائمة المهام</a>
+        </div>
+    </form>
+
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
+</div>

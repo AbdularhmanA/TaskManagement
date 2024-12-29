@@ -1,0 +1,62 @@
+﻿@using TaskManagement.ViewModel;
+@model LoginViewModel;
+
+@{
+    ViewData["Title"] = "تسجيل الدخول";
+
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+
+
+
+
+
+<div class="account-container" dir="rtl">
+    <div class="account-box">
+        <h2 class="text-center mb-4">تسجيل الدخول</h2>
+        <form asp-action="Login" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password"></label>
+                <div class="input-group">
+                    <input asp-for="Password" class="form-control" id="passwordInput" />
+                    <button type="button" class="btn btn-outline-secondary" onclick="togglePassword('passwordInput')">👁️</button>
+                </div>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="float-end">
+                <a asp-controller="Account" asp-action="VerifyEmail" class="text-decoration-none">
+                    نسيت كلمة المرور؟
+                </a>
+            </div>
+            <div class="form-check mb-3">
+                <label class="form-check-label">
+                    <input asp-for="RememberMe" class="form-check-input" />
+                    @Html.DisplayNameFor(a => a.RememberMe)
+                </label>
+            </div>
+            <input type="submit" value="تسجيل الدخول" class="btn btn-success w-100 p-2" />
+            <p class="text-center mt-2">
+                ليس لديك حساب؟ <a asp-controller="Account" asp-action="Register" class="text-decoration-none">إنشاء حساب</a>
+            </p>
+            <div class="text-center">
+                <a asp-controller="Account" asp-action="Register" class="text-decoration-none mt-3">الرجوع</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial.cshtml");
+    }
+<script src="~/js/HidePassword.js"></script>
+}
+
+
+

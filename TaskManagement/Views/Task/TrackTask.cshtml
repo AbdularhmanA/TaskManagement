@@ -1,0 +1,54 @@
+﻿@model IEnumerable<TaskManagement.ViewModel.TrackTaskViewModel>
+
+@{
+    ViewData["Title"] = "متابعة المعاملات";
+}
+<link rel="stylesheet" href="~/css/Css.Css" asp-append-version="true">
+   <header>
+        <img src="~/image/Saudi_Vision_2030_logo.svg.png" alt="Vision 2030" class="logo-left" asp-append-version="true">
+        <div class="header-text">
+            <h1>أمانة منطقة حائل</h1>
+            <h2>HAIL REGION MUNICIPALITY</h2>
+        </div>
+        <img src="~/image/logo1.png" alt="Hail Region Municipality" class="logo-right" asp-append-version="true">
+    </header>
+
+<h2>متابعة المهام</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>مسمى المهمة</th>
+            <th>سرعة التنفيذ</th>
+            <th>الموعد النهائي</th>
+            <th>الحالة الحالية</th>
+            <th>تحديث الحالة</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var task in Model)
+        {
+            <tr>
+                <td>@task.Title</td>
+                <td>@task.Priority</td>
+                <td>
+                    @task.Deadline?.ToString("yyyy-MM-dd") @Html.Raw("&nbsp;") @task.Deadline?.ToString("hh:mm tt")
+                </td>
+
+
+                <td>@task.Track</td> <!-- عرض الحالة الحالية -->
+                <td>
+                    <form asp-action="UpdateTaskStatus" method="post">
+                        <input type="hidden" name="taskId" value="@task.TaskId" />
+                        <select name="updatedStatus" required class="form-select">
+                            <option value="">اختر الحالة</option>
+                            <option value="منجزة">منجزة</option>
+                            <option value="غير منجزة">غير منجزة</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary mt-1">تحديث</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
